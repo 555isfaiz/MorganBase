@@ -1,0 +1,4 @@
+rootProject.name = 'morgan'
+include 'morgan-arch'
+
+

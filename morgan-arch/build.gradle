@@ -1,0 +1,19 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+	implementation fileTree(dir:'../lib',include:['*.jar'])
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDir '../config'
+		}
+	}
+}
+
+version 'unspecified'
+
+jar.enabled = true
