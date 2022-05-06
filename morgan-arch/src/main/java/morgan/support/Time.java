@@ -3,7 +3,11 @@ package morgan.support;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Time {
 
@@ -92,5 +96,10 @@ public class Time {
             sixLater = today[0] + "-" + (Integer.parseInt(today[1]) + 6) + "-" + birthday[2];
         }
         return sixLater;
+    }
+
+    public static long getTimeZoneOffset() {
+        TimeZone tz = TimeZone.getDefault();
+        return tz.toZoneId().getRules().getOffset(Instant.now()).getTotalSeconds() * Time.SEC;
     }
 }

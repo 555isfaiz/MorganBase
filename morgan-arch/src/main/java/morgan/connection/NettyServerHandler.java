@@ -51,6 +51,7 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
             return;
 
         conn.onConnectionClosed();
+        connNum.decrementAndGet();
 //        Log.connection.info("morgan.connection closed, id:{}", conn.getId());
     }
 
