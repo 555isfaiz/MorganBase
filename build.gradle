@@ -8,29 +8,24 @@ dependencies {
 }
 
 processResources {
-	from('morgan-shooting/src/main/resources') {
+	from('MorganFirearm/src/main/resources') {
 		include '*.dll'
 	}
 	from('config') {
 		include '*.*'
 	}
-	from('morgan-card/config') {
+	from('MorganFirearm/src/main/resources') {
 		include '*.*'
 	}
 }
 
-task packCard(type: org.gradle.api.tasks.bundling.Jar) {
+task packFirearm(type: org.gradle.api.tasks.bundling.Jar) {
 	baseName 'firearms-build'
 	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
-	sourceSets {
-		main {
-			java {
-				srcDir 'morgan-arch'
-//				srcDir 'morgan-card'
-				srcDir 'morgan-firearm'
-			}
-		}
+	dependencies {
+		implementation project(':morgan-arch')
+		implementation project(':MorganFirearm')
 	}
 
 	copy {
@@ -40,53 +35,16 @@ task packCard(type: org.gradle.api.tasks.bundling.Jar) {
 	from('config/') {
 		include('*.xml')
 	}
-	from('morgan-arch/build/classes/java/main/')
-	from('morgan-firearm/build/classes/java/main/')
-	from('morgan-firearm/src/main/resources')
-	copy {
-//		from('./morgan-card/config/')
-//		into('build/morgan-firearm/config')
-	}
+	from('morgan-arch/bin/classes/java/main/')
+	from('MorganFirearm/src/main/resources')
+	from('MorganFirearm/src/main/resources')
+
 	from {
 		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
 	}
-//
-//	processResources {
-//		from('morgan-firearm/src/main/resources') {
-//			include '*.*'
-//		}
-//	}
+
 	destinationDir = file('build/')
 }
-packCard.dependsOn(build)
+packFirearm.dependsOn(build)
 
 jar.enabled = true
-
-//task packShooting(type:org.gradle.api.tasks.bundling.Jar) {
-//	baseName 'morgan-shooting'
-//
-//	sourceSets {
-//		main {
-//			java {
-//				srcDir 'morgan-arch'
-//				srcDir 'morgan-shooting'
-//			}
-//		}
-//	}
-//
-//	copy {
-//		from('config/')
-//		into('build/config')
-//	}
-//	from('config/') {
-//		include('*.xml')
-//	}
-//	from('morgan-arch/build/classes/java/main/')
-//	from('morgan-shooting/build/classes/java/main/')
-//	from('morgan-shooting/src/main/resources')
-//	from {
-//		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-//	}
-//	destinationDir = file('build/')
-//}
-//packShooting.dependsOn(build)
