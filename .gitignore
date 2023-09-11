@@ -24,3 +24,5 @@ morgan-*/
 .gradle
 files/
 .vscode/
+.classpath
+.project

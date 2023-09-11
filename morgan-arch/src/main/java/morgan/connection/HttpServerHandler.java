@@ -1,7 +1,7 @@
 package morgan.connection;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.Feature;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -9,8 +9,6 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.CharsetUtil;
 import morgan.support.Factory;
 import morgan.support.Log;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 
@@ -43,7 +41,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
         var body = httpRequest.content().toString(CharsetUtil.UTF_8);
         Object[] args;
         if (!body.isBlank()) {
-            var json = JSONObject.parseObject(body, Feature.OrderedField);
+            var json = JSONObject.parseObject(body);
             args = new Object[json.size() + 1];
             args[0] = ctx;
             int i = 1;
@@ -52,7 +50,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
                 i++;
             }
         } else {
-            args = new Object[]{ctx};
+            args = new Object[] {ctx};
         }
 
         int uriEnd = 0;
@@ -63,7 +61,8 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
             }
         }
 
-        var uri = uriEnd == 0 || httpRequest.method().name().equals("GET") ? httpRequest.uri() : httpRequest.uri().substring(0, uriEnd);
+        var uri = uriEnd == 0 || httpRequest.method().name().equals("GET") ? httpRequest.uri()
+                : httpRequest.uri().substring(0, uriEnd);
         Factory.httpMappingInstance().handle(uri, httpRequest.method().name(), args);
     }
 
