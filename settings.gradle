@@ -1,5 +1,0 @@
-rootProject.name = 'morgan'
-include 'morgan-arch'
-include 'MorganFirearm'
-include 'MorganShootingServer'
-

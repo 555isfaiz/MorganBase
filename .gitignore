@@ -19,10 +19,12 @@ protocol/
 *.ttf
 *.woff2
 *.woff
-morgan-*/
+Morgan*/
 */.vscode
 .gradle
 files/
 .vscode/
 .classpath
 .project
+.direnv
+*/target/*
